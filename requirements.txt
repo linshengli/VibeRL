@@ -1,0 +1,7 @@
+akshare
+flask
+openai
+pandas
+pyarrow
+pyyaml
+pytest

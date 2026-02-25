@@ -1,0 +1,136 @@
+{
+  "query": "请比较茅台和腾讯，给我行情、技术指标、风险建议",
+  "num_targets": 2,
+  "analyses": [
+    {
+      "task": {
+        "name": "茅台",
+        "need_quote": true,
+        "need_indicator": true,
+        "need_info": true
+      },
+      "symbol": {
+        "code": "600519",
+        "name": "贵州茅台",
+        "market": "a_share",
+        "exchange": "SSE"
+      },
+      "quote": {
+        "code": "600519",
+        "name": "贵州茅台",
+        "price": 1491.66,
+        "change": 24.86,
+        "change_pct": 1.69,
+        "volume": 3688067,
+        "amount_million_cny": 5490.32,
+        "high": 1509.66,
+        "low": 1467.88,
+        "open": 1470.0,
+        "prev_close": 1466.8,
+        "timestamp": "2026-02-25 15:00:00",
+        "market": "a_share"
+      },
+      "indicators": {
+        "code": "600519",
+        "period": "daily",
+        "as_of": "2026-02-25",
+        "indicators": {
+          "MA5": 1486.938,
+          "MA20": 1441.846,
+          "MACD": {
+            "dif": 26.3958,
+            "dea": 24.7665,
+            "histogram": 3.2587
+          },
+          "RSI14": 69.1874
+        }
+      },
+      "info": {
+        "code": "600519",
+        "name": "贵州茅台",
+        "full_name": "贵州茅台酒股份有限公司",
+        "industry": "酒、饮料和精制茶制造业",
+        "market_cap_billion_cny": 1867.96,
+        "listed_date": "2001-08-27",
+        "exchange": "SSE",
+        "market": "a_share"
+      },
+      "risk": {
+        "risk_level": "low",
+        "risk_score": 0,
+        "reasons": [
+          "短线波动和技术指标未见明显异常"
+        ],
+        "suggestion": "风险相对可控，关注后续基本面与成交量变化"
+      },
+      "final_answer": "贵州茅台(600519): 现价 1491.66, 涨跌幅 1.69%, 成交量 3688067\n600519 技术指标: MA5=1486.938, MA20=1441.846, RSI14=69.1874, MACD(DIF=26.3958, DEA=24.7665)",
+      "trajectory_id": "d7989d75-2187-4d06-80c9-a6e8f166dd59"
+    },
+    {
+      "task": {
+        "name": "腾讯",
+        "need_quote": true,
+        "need_indicator": true,
+        "need_info": true
+      },
+      "symbol": {
+        "code": "00700",
+        "name": "腾讯控股",
+        "market": "hk_share",
+        "exchange": "HKEX"
+      },
+      "quote": {
+        "code": "00700",
+        "name": "腾讯控股",
+        "price": 522.5,
+        "change": 2.5,
+        "change_pct": 0.48,
+        "volume": 22838866,
+        "amount_million_cny": 11022.63,
+        "high": 529.0,
+        "low": 522.0,
+        "open": 522.5,
+        "prev_close": 520.0,
+        "timestamp": "2026-02-25 16:08:35",
+        "market": "hk_share"
+      },
+      "indicators": {
+        "code": "00700",
+        "period": "daily",
+        "as_of": "2026-02-25",
+        "indicators": {
+          "MA5": 527.1,
+          "MA20": 563.05,
+          "MACD": {
+            "dif": -21.929,
+            "dea": -18.8856,
+            "histogram": -6.0869
+          },
+          "RSI14": 23.0496
+        }
+      },
+      "info": {
+        "code": "00700",
+        "name": "腾讯控股",
+        "full_name": "腾讯控股有限公司",
+        "industry": "软件服务",
+        "market_cap_billion_cny": 4377.43,
+        "listed_date": "2004-06-16",
+        "exchange": "HKEX",
+        "market": "hk_share"
+      },
+      "risk": {
+        "risk_level": "medium",
+        "risk_score": 2,
+        "reasons": [
+          "RSI14 偏低(23.0496)，波动可能加剧",
+          "MACD 柱体为负，短线动能偏弱"
+        ],
+        "suggestion": "建议控制仓位，观察量价与指标共振信号"
+      },
+      "final_answer": "腾讯控股(00700): 现价 522.5, 涨跌幅 0.48%, 成交量 22838866\n00700 技术指标: MA5=527.1, MA20=563.05, RSI14=23.0496, MACD(DIF=-21.929, DEA=-18.8856)",
+      "trajectory_id": "d77e49f8-3df6-4bd2-8ef4-00ce4141bf93"
+    }
+  ],
+  "report": "用户需求: 请比较茅台和腾讯，给我行情、技术指标、风险建议\n\n多 Agent 协作结论:\n1. 贵州茅台 (600519)\n   行情: 现价 1491.66, 涨跌幅 1.69%, 量 3688067\n   基本面: 行业 酒、饮料和精制茶制造业, 市值(亿元) 1867.96, 上市 2001-08-27\n   技术: MA5=1486.938, MA20=1441.846, RSI14=69.1874, MACD={'dif': 26.3958, 'dea': 24.7665, 'histogram': 3.2587}\n   风险: low (score=0) | 建议: 风险相对可控，关注后续基本面与成交量变化\n2. 腾讯控股 (00700)\n   行情: 现价 522.5, 涨跌幅 0.48%, 量 22838866\n   基本面: 行业 软件服务, 市值(亿元) 4377.43, 上市 2004-06-16\n   技术: MA5=527.1, MA20=563.05, RSI14=23.0496, MACD={'dif': -21.929, 'dea': -18.8856, 'histogram': -6.0869}\n   风险: medium (score=2) | 建议: 建议控制仓位，观察量价与指标共振信号\n\n执行说明: Planner -> Research -> Fundamental -> Risk -> Reporter"
+}

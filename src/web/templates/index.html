@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VibeRL Multi-Agent Console</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}" />
+  </head>
+  <body>
+    <div class="bg-orb orb-a"></div>
+    <div class="bg-orb orb-b"></div>
+
+    <header class="app-header">
+      <div>
+        <h1>VibeRL Agent Studio</h1>
+        <p>历史记录 / Chat / 多 Agent 工作视图</p>
+      </div>
+      <div class="header-meta" id="health-status">连接中...</div>
+    </header>
+
+    <main class="layout-grid">
+      <section class="panel history-panel">
+        <div class="panel-title-row">
+          <h2>会话历史</h2>
+          <div class="panel-btns">
+            <button id="new-conversation-btn" class="ghost-btn" type="button">新建会话</button>
+            <button id="refresh-history-btn" class="ghost-btn" type="button">刷新</button>
+          </div>
+        </div>
+        <div id="history-list" class="history-list"></div>
+      </section>
+
+      <section class="panel chat-panel">
+        <h2>Chat（多轮）</h2>
+        <div id="chat-thread" class="chat-thread"></div>
+
+        <form id="chat-form" class="chat-form">
+          <textarea id="query-input" placeholder="输入查询，例如：比较茅台和腾讯的行情、技术指标和风险" required></textarea>
+          <div class="chat-form-row">
+            <div class="model-switch" role="group" aria-label="模型切换">
+              <button id="model-rule-btn" type="button" class="model-btn active" data-model="rule-based">Rule-based</button>
+              <button id="model-llm-btn" type="button" class="model-btn" data-model="deepseek-chat">大模型</button>
+            </div>
+            <label class="stream-toggle">
+              <input id="stream-toggle" type="checkbox" checked />
+              流式
+            </label>
+            <button id="send-btn" type="submit">发送</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel agents-panel">
+        <h2>Multi-Agent 工作信息</h2>
+        <div id="agent-report" class="agent-report empty">请选择历史记录或先发起一次查询。</div>
+        <div id="agent-worklog" class="agent-worklog"></div>
+      </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

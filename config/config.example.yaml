@@ -1,0 +1,30 @@
+# API keys
+deepseek_api_key: ""
+wandb_api_key: ""
+
+# model path / id
+model_path: "models/Qwen2.5-7B-Instruct"
+
+# generic training settings
+output_dir: "checkpoints/sft"
+fsdp_param_offload: false
+fsdp_optimizer_offload: true
+num_train_epochs: 3
+batch_size: 32
+per_device_batch_size: 2
+gradient_accumulation_steps: 4
+learning_rate: 2e-5
+gradient_checkpointing: true
+
+# RL specific
+group_size: 8
+kl_coef: 0.01
+clip_ratio: 0.2
+temperature: 0.7
+use_ngrpo: false
+ngrpo_threshold: 0.3
+
+# experiment tracking
+wandb_project: "vibe-rl"
+wandb_run_name: "sft-baseline"
+seed: 42

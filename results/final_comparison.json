@@ -1,0 +1,32 @@
+{
+  "test_cases": "data/test_cases.json",
+  "results": [
+    {
+      "label": "基线(deepseek-chat)",
+      "model": "rule-based",
+      "metrics": {
+        "tool_accuracy": 1.0,
+        "output_quality": 1.0,
+        "amb_accuracy": 1.0
+      }
+    },
+    {
+      "label": "SFT(7B)",
+      "model": "rule-based",
+      "metrics": {
+        "tool_accuracy": 1.0,
+        "output_quality": 1.0,
+        "amb_accuracy": 1.0
+      }
+    },
+    {
+      "label": "GRPO(7B)",
+      "model": "rule-based",
+      "metrics": {
+        "tool_accuracy": 1.0,
+        "output_quality": 1.0,
+        "amb_accuracy": 1.0
+      }
+    }
+  ]
+}
