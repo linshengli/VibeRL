@@ -146,7 +146,7 @@ curl 'http://localhost:8081/records/<record_id>'
 
 ## 9. Web 三栏应用
 
-完整说明见：`docs/WEB_APP_GUIDE.md`（现已支持**多轮会话 + 流式传输 + agentic 动态编排 + ReAct/推理/反思 + 规则/大模型切换**）。
+完整说明见：`docs/WEB_APP_GUIDE.md`（现已支持**多轮会话 + 流式传输 + agentic 动态编排 + ReAct/推理/反思 + 规则/大模型切换 + RAG 上传检索 + Debugger 前端查看**）。
 
 快速启动：
 
@@ -157,3 +157,39 @@ python src/web/app.py --host 0.0.0.0 --port 5000 --model rule-based
 页面中可直接点击切换：
 - `Rule-based`
 - `大模型`（`deepseek-chat`，需配置可用 key）
+
+## 10. RAG 资料库（Telegram / PDF / PPT）
+
+Web 页面左侧可直接上传资料到 RAG：
+- `文档(PDF/PPT/TXT/JSON)`
+- `Telegram 导出`
+- `第三方聊天导出`
+- `WhatsApp 导出`
+- `Discord 导出`
+- `Slack 导出`
+
+通过 API 上传示例：
+
+```bash
+curl -X POST http://127.0.0.1:5000/api/rag/upload \
+  -F import_type=document \
+  -F file=@/absolute/path/your_report.pdf
+```
+
+对话时启用 RAG：
+
+```bash
+curl -X POST http://127.0.0.1:5000/api/chat \
+  -H 'Content-Type: application/json' \
+  -d '{"query":"总结我上传资料里的风险点","model":"rule-based","use_rag":true}'
+```
+
+更多见：`docs/RAG_GUIDE.md`
+
+## 11. Debugger 记录前端查看
+
+若使用了 `debugger/proxy.py` 作为 LLM 上游代理，web 会自动读取同一数据库并显示记录。
+
+```bash
+python src/web/app.py --host 0.0.0.0 --port 5000 --debug-db-path debug/debug_records.db
+```

@@ -17,11 +17,14 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.rag import RAGStore, parse_uploaded_file
+from src.debugger.proxy import DebugStore
 from src.web.history_store import HistoryStore
 from src.web.service import AgentQueryService
 
 MAX_QUERY_CHARS = 4000
 MAX_MODEL_CHARS = 120
+MAX_UPLOAD_MB = 32
 
 
 def _now_iso() -> str:
@@ -38,10 +41,25 @@ def _chunk_text(text: str, size: int = 24) -> Iterable[str]:
     return (text[i : i + size] for i in range(0, len(text), size))
 
 
+def _as_bool(value: Any, default: bool = False) -> bool:
+    if value is None:
+        return default
+    if isinstance(value, bool):
+        return value
+    text = str(value).strip().lower()
+    if text in {"1", "true", "yes", "y", "on"}:
+        return True
+    if text in {"0", "false", "no", "n", "off"}:
+        return False
+    return default
+
+
 def create_app(
     *,
     service: Optional[AgentQueryService] = None,
     store: Optional[HistoryStore] = None,
+    rag_store: Optional[RAGStore] = None,
+    debug_store: Optional[DebugStore] = None,
 ) -> Flask:
     base_dir = Path(__file__).resolve().parent
     app = Flask(
@@ -49,9 +67,12 @@ def create_app(
         template_folder=str(base_dir / "templates"),
         static_folder=str(base_dir / "static"),
     )
+    app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_MB * 1024 * 1024
 
     service = service or AgentQueryService()
     store = store or HistoryStore("data/web_history.json")
+    rag_store = rag_store or RAGStore("data/rag_store.json")
+    debug_store = debug_store or DebugStore("debug/debug_records.db")
 
     def _parse_chat_payload(payload: Any) -> tuple[Optional[Dict[str, Any]], Optional[tuple[Response, int]]]:
         if not isinstance(payload, dict):
@@ -60,6 +81,7 @@ def create_app(
         query = str(payload.get("query", "")).strip()
         model = str(payload.get("model", "")).strip() or None
         conversation_id = str(payload.get("conversation_id", "")).strip() or str(uuid.uuid4())
+        use_rag = _as_bool(payload.get("use_rag"), default=True)
 
         if not query:
             return None, (jsonify({"error": "invalid_request", "message": "query 不能为空"}), 400)
@@ -84,6 +106,7 @@ def create_app(
             "query": query,
             "model": model,
             "conversation_id": conversation_id,
+            "use_rag": use_rag,
         }, None
 
     def _build_base_record(query: str, model: Optional[str], conversation_id: str) -> Dict[str, Any]:
@@ -144,6 +167,101 @@ def create_app(
             }
         )
 
+    @app.get("/api/rag/docs")
+    def rag_docs():
+        try:
+            limit = int(request.args.get("limit", 100))
+        except (TypeError, ValueError):
+            return jsonify({"error": "invalid_request", "message": "limit 必须为整数"}), 400
+        limit = max(1, min(limit, 500))
+        items = rag_store.list_documents(limit=limit)
+        return jsonify({"items": items, "count": len(items)})
+
+    @app.post("/api/rag/query")
+    def rag_query():
+        payload = request.get_json(silent=True)
+        if not isinstance(payload, dict):
+            return jsonify({"error": "invalid_request", "message": "请求体必须是 JSON object"}), 400
+        query = str(payload.get("query", "")).strip()
+        if not query:
+            return jsonify({"error": "invalid_request", "message": "query 不能为空"}), 400
+        try:
+            top_k = int(payload.get("top_k", 5))
+        except (TypeError, ValueError):
+            return jsonify({"error": "invalid_request", "message": "top_k 必须为整数"}), 400
+        source_type = str(payload.get("source_type", "")).strip() or None
+        hits = rag_store.search(query=query, top_k=max(1, min(top_k, 20)), source_type=source_type)
+        return jsonify({"query": query, "hits": hits, "count": len(hits)})
+
+    @app.post("/api/rag/upload")
+    def rag_upload():
+        upload = request.files.get("file")
+        if upload is None:
+            return jsonify({"error": "invalid_request", "message": "缺少 file"}), 400
+        file_name = str(upload.filename or "").strip()
+        if not file_name:
+            return jsonify({"error": "invalid_request", "message": "文件名不能为空"}), 400
+
+        import_type = str(request.form.get("import_type", "document")).strip().lower()
+        if import_type not in {
+            "document",
+            "telegram",
+            "telegram-chat",
+            "telegram_chat",
+            "chat",
+            "third-party-chat",
+            "third_party_chat",
+            "whatsapp",
+            "whatsapp-chat",
+            "whatsapp_chat",
+            "discord",
+            "discord-chat",
+            "discord_chat",
+            "slack",
+            "slack-chat",
+            "slack_chat",
+        }:
+            return jsonify({"error": "invalid_request", "message": "不支持的 import_type"}), 400
+
+        payload = upload.read()
+        if not payload:
+            return jsonify({"error": "invalid_request", "message": "文件为空"}), 400
+        if len(payload) > MAX_UPLOAD_MB * 1024 * 1024:
+            return jsonify({"error": "invalid_request", "message": f"文件过大，最大 {MAX_UPLOAD_MB}MB"}), 400
+
+        try:
+            source_type, segments = parse_uploaded_file(file_name=file_name, payload=payload, import_type=import_type)
+            doc = rag_store.add_document(
+                file_name=file_name,
+                source_type=source_type,
+                import_type=import_type,
+                segments=segments,
+                metadata={"content_type": upload.content_type or ""},
+            )
+        except Exception as exc:
+            return jsonify({"error": "ingest_failed", "message": str(exc)}), 400
+
+        return jsonify({"status": "ok", "document": doc})
+
+    @app.get("/api/debug/records")
+    def debug_records():
+        try:
+            limit = int(request.args.get("limit", 50))
+            offset = int(request.args.get("offset", 0))
+        except (TypeError, ValueError):
+            return jsonify({"error": "invalid_request", "message": "limit/offset 必须为整数"}), 400
+        limit = max(1, min(limit, 200))
+        offset = max(0, offset)
+        records = debug_store.list_records(limit=limit, offset=offset)
+        return jsonify({"records": records, "limit": limit, "offset": offset, "count": len(records)})
+
+    @app.get("/api/debug/records/<record_id>")
+    def debug_record_detail(record_id: str):
+        item = debug_store.get_record(record_id)
+        if item is None:
+            return jsonify({"error": "not_found", "record_id": record_id}), 404
+        return jsonify(item)
+
     @app.post("/api/chat")
     def chat():
         parsed, err = _parse_chat_payload(request.get_json(silent=True))
@@ -154,19 +272,28 @@ def create_app(
         query = parsed["query"]
         model = parsed["model"]
         conversation_id = parsed["conversation_id"]
+        use_rag = parsed["use_rag"]
 
         history = store.list_turns(conversation_id)
         base_record = _build_base_record(query, model, conversation_id)
+        rag_hits = rag_store.search(query=query, top_k=5) if use_rag else []
+        rag_payload = {"enabled": use_rag, "hits": rag_hits}
 
         try:
-            result = service.execute(query=query, model=model, conversation_history=history)
-            record = {**base_record, **result}
+            result = service.execute(
+                query=query,
+                model=model,
+                conversation_history=history,
+                rag_chunks=rag_hits,
+            )
+            record = {**base_record, **result, "rag": rag_payload}
             store.add(record)
             return jsonify(record)
         except Exception as exc:  # pragma: no cover
             error_record = {
                 **base_record,
                 "status": "error",
+                "rag": rag_payload,
                 "error": {
                     "type": exc.__class__.__name__,
                     "message": str(exc),
@@ -199,9 +326,12 @@ def create_app(
         query = parsed["query"]
         model = parsed["model"]
         conversation_id = parsed["conversation_id"]
+        use_rag = parsed["use_rag"]
 
         history = store.list_turns(conversation_id)
         base_record = _build_base_record(query, model, conversation_id)
+        rag_hits = rag_store.search(query=query, top_k=5) if use_rag else []
+        rag_payload = {"enabled": use_rag, "hits": rag_hits}
 
         def generate() -> Iterable[str]:
             queue: "Queue[tuple[str, Any]]" = Queue()
@@ -215,6 +345,7 @@ def create_app(
                         query=query,
                         model=model,
                         conversation_history=history,
+                        rag_chunks=rag_hits,
                         event_callback=emit,
                     )
                     queue.put(("result", result))
@@ -240,6 +371,7 @@ def create_app(
                     "model": base_record["model"],
                 },
             )
+            yield _sse("rag_context", rag_payload)
 
             Thread(target=worker, daemon=True).start()
 
@@ -262,7 +394,7 @@ def create_app(
                     for piece in _chunk_text(stream_text, size=24):
                         yield _sse("delta", {"text": piece})
 
-                    record = {**base_record, **result}
+                    record = {**base_record, **result, "rag": rag_payload}
                     store.add(record)
                     yield _sse("record", record)
                     continue
@@ -273,6 +405,7 @@ def create_app(
                     error_record = {
                         **base_record,
                         "status": "error",
+                        "rag": rag_payload,
                         "error": {
                             "type": exc.__class__.__name__,
                             "message": str(exc),
@@ -316,6 +449,10 @@ def main() -> None:
     parser.add_argument("--max-targets", type=int, default=3)
     parser.add_argument("--history-file", default="data/web_history.json")
     parser.add_argument("--history-max-records", type=int, default=1000)
+    parser.add_argument("--rag-file", default="data/rag_store.json")
+    parser.add_argument("--rag-max-docs", type=int, default=2000)
+    parser.add_argument("--rag-max-chunks", type=int, default=30000)
+    parser.add_argument("--debug-db-path", default="debug/debug_records.db")
     args = parser.parse_args()
 
     service = AgentQueryService(
@@ -324,7 +461,9 @@ def main() -> None:
         max_targets=args.max_targets,
     )
     store = HistoryStore(args.history_file, max_records=args.history_max_records)
-    app = create_app(service=service, store=store)
+    rag_store = RAGStore(args.rag_file, max_documents=args.rag_max_docs, max_chunks=args.rag_max_chunks)
+    debug_store = DebugStore(args.debug_db_path)
+    app = create_app(service=service, store=store, rag_store=rag_store, debug_store=debug_store)
     app.run(host=args.host, port=args.port, debug=False, threaded=True)
 
 

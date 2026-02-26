@@ -30,6 +30,7 @@ class AgentQueryService:
         query: str,
         model: Optional[str] = None,
         conversation_history: Optional[List[Dict[str, Any]]] = None,
+        rag_chunks: Optional[List[Dict[str, Any]]] = None,
         event_callback: Optional[Callable[[Dict[str, Any]], None]] = None,
     ) -> Dict[str, Any]:
         used_model = model or self.default_model
@@ -37,7 +38,7 @@ class AgentQueryService:
             if event_callback is not None:
                 event_callback(event)
 
-        contextual_query = self._compose_query_with_history(query, conversation_history or [])
+        contextual_query = self._compose_query_with_context(query, conversation_history or [], rag_chunks or [])
         emit({"type": "stage", "stage": "chat.start", "detail": {"model": used_model}})
         chat_payload = self._run_chat(contextual_query, used_model)
         emit({"type": "stage", "stage": "chat.done", "detail": {"num_turns": chat_payload.get("num_turns")}})
@@ -104,24 +105,39 @@ class AgentQueryService:
         )
         return orchestrator.run(query, event_callback=event_callback)
 
-    def _compose_query_with_history(self, query: str, history: List[Dict[str, Any]]) -> str:
-        if not history:
+    def _compose_query_with_context(
+        self,
+        query: str,
+        history: List[Dict[str, Any]],
+        rag_chunks: List[Dict[str, Any]],
+    ) -> str:
+        if not history and not rag_chunks:
             return query
 
         # Keep a compact rolling context for multi-turn continuity.
-        recent = history[-6:]
-        lines: List[str] = ["以下是最近对话上下文："]
-        for idx, turn in enumerate(recent, start=1):
-            q = str(turn.get("query", "")).strip()
-            answer = str(
-                (turn.get("chat") or {}).get("final_answer")
-                or (turn.get("multi_agent") or {}).get("report")
-                or ""
-            ).strip()
-            if q:
-                lines.append(f"[{idx}] 用户: {q}")
-            if answer:
-                lines.append(f"[{idx}] 助手: {answer[:300]}")
+        lines: List[str] = []
+        if history:
+            recent = history[-6:]
+            lines.append("以下是最近对话上下文：")
+            for idx, turn in enumerate(recent, start=1):
+                q = str(turn.get("query", "")).strip()
+                answer = str(
+                    (turn.get("chat") or {}).get("final_answer")
+                    or (turn.get("multi_agent") or {}).get("report")
+                    or ""
+                ).strip()
+                if q:
+                    lines.append(f"[{idx}] 用户: {q}")
+                if answer:
+                    lines.append(f"[{idx}] 助手: {answer[:300]}")
+
+        if rag_chunks:
+            lines.append("")
+            lines.append("以下是知识库检索结果（仅作参考，若与实时工具冲突以实时数据为准）：")
+            for idx, item in enumerate(rag_chunks[:5], start=1):
+                doc_name = str(item.get("doc_name") or "unknown")
+                text = str(item.get("text") or "").strip().replace("\n", " ")
+                lines.append(f"[RAG{idx}] 来源: {doc_name} | 内容: {text[:320]}")
         lines.append("")
         lines.append(f"当前问题: {query}")
         return "\n".join(lines)

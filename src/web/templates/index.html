@@ -33,6 +33,23 @@
             <button id="refresh-history-btn" class="ghost-btn" type="button">刷新</button>
           </div>
         </div>
+        <div class="rag-box">
+          <div class="rag-head">RAG 资料库</div>
+          <form id="rag-upload-form" class="rag-upload-form">
+            <select id="rag-import-type">
+              <option value="document">文档(PDF/PPT/TXT)</option>
+              <option value="telegram">Telegram 导入</option>
+              <option value="chat">第三方聊天导入</option>
+              <option value="whatsapp">WhatsApp 导入</option>
+              <option value="discord">Discord 导入</option>
+              <option value="slack">Slack 导入</option>
+            </select>
+            <input id="rag-file-input" type="file" accept=".pdf,.ppt,.pptx,.txt,.md,.json" required />
+            <button id="rag-upload-btn" type="submit" class="ghost-btn">上传到 RAG</button>
+          </form>
+          <div id="rag-upload-status" class="rag-upload-status">未上传资料</div>
+          <div id="rag-doc-list" class="rag-doc-list"></div>
+        </div>
         <div id="history-list" class="history-list"></div>
       </section>
 
@@ -44,12 +61,17 @@
           <textarea id="query-input" placeholder="输入查询，例如：比较茅台和腾讯的行情、技术指标和风险" required></textarea>
           <div class="chat-form-row">
             <div class="model-switch" role="group" aria-label="模型切换">
-              <button id="model-rule-btn" type="button" class="model-btn active" data-model="rule-based">Rule-based</button>
-              <button id="model-llm-btn" type="button" class="model-btn" data-model="deepseek-chat">大模型</button>
+              <button id="model-rule-btn" type="button" class="model-btn active" data-model="rule-based" aria-pressed="true">Rule-based</button>
+              <button id="model-llm-btn" type="button" class="model-btn" data-model="deepseek-chat" aria-pressed="false">大模型</button>
             </div>
+            <span id="model-indicator" class="model-indicator">当前模型: Rule-based</span>
             <label class="stream-toggle">
               <input id="stream-toggle" type="checkbox" checked />
               流式
+            </label>
+            <label class="stream-toggle">
+              <input id="rag-toggle" type="checkbox" checked />
+              RAG
             </label>
             <button id="send-btn" type="submit">发送</button>
           </div>
@@ -57,9 +79,19 @@
       </section>
 
       <section class="panel agents-panel">
-        <h2>Multi-Agent 工作信息</h2>
+        <div class="panel-title-row">
+          <h2>Multi-Agent 工作信息</h2>
+          <div class="panel-btns">
+            <button id="refresh-debug-btn" class="ghost-btn" type="button">刷新 Debugger</button>
+          </div>
+        </div>
         <div id="agent-report" class="agent-report empty">请选择历史记录或先发起一次查询。</div>
         <div id="agent-worklog" class="agent-worklog"></div>
+        <div class="debugger-panel">
+          <div class="rag-head">Debugger 调用记录</div>
+          <div id="debugger-list" class="debugger-list"></div>
+          <pre id="debugger-detail" class="debugger-detail"></pre>
+        </div>
       </section>
     </main>
 

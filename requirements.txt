@@ -2,6 +2,8 @@ akshare
 flask
 openai
 pandas
+pypdf
+python-pptx
 pyarrow
 pyyaml
 pytest

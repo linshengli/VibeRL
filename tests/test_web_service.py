@@ -66,6 +66,40 @@ def test_service_uses_conversation_history_context() -> None:
     assert "当前问题: 现在再看一次" in captured["query"]
 
 
+def test_service_includes_rag_context() -> None:
+    captured = {"query": ""}
+
+    def chat_runner(query: str, model: str):
+        captured["query"] = query
+        return {
+            "trajectory_id": "t3",
+            "final_answer": "ok",
+            "num_turns": 1,
+            "success": True,
+            "tool_calls": [],
+            "messages": [],
+            "tool_trace": [],
+        }
+
+    def multi_runner(query: str, model: str):
+        return {
+            "query": query,
+            "num_targets": 0,
+            "analyses": [],
+            "report": "ok",
+            "worklog": [],
+        }
+
+    svc = AgentQueryService(default_model="rule-based", chat_runner=chat_runner, multi_runner=multi_runner)
+    svc.execute(
+        "结论是什么",
+        rag_chunks=[{"doc_name": "telegram_export.json", "text": "群聊中提到持仓控制"}],
+    )
+
+    assert "知识库检索结果" in captured["query"]
+    assert "telegram_export.json" in captured["query"]
+
+
 def test_trajectory_payload_contains_react_and_reasoning_summary() -> None:
     svc = AgentQueryService(default_model="rule-based")
     trajectory = AgentTrajectory(

@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import io
 import json
 from pathlib import Path
 
+from src.rag.store import RAGStore
 from src.web.app import create_app
 from src.web.history_store import HistoryStore
 
@@ -16,6 +18,7 @@ class FakeService:
         query: str,
         model: str | None = None,
         conversation_history=None,
+        rag_chunks=None,
         event_callback=None,
     ):
         if query == "boom":
@@ -48,12 +51,14 @@ class FakeService:
                     }
                 ],
             },
+            "rag": {"used": len(rag_chunks or [])},
         }
 
 
 def build_client(tmp_path: Path):
     store = HistoryStore(str(tmp_path / "web_history_test.json"))
-    app = create_app(service=FakeService(), store=store)
+    rag_store = RAGStore(str(tmp_path / "rag_store_test.json"))
+    app = create_app(service=FakeService(), store=store, rag_store=rag_store)
     app.config.update(TESTING=True)
     return app.test_client()
 
@@ -142,6 +147,7 @@ def test_chat_stream_endpoint(tmp_path: Path) -> None:
     assert resp.status_code == 200
     body = resp.get_data(as_text=True)
     assert "event: meta" in body
+    assert "event: rag_context" in body
     assert "event: agent_event" in body
     assert "event: record" in body
     assert "event: done" in body
@@ -157,3 +163,49 @@ def test_chat_stream_endpoint(tmp_path: Path) -> None:
                 break
     assert record_payload is not None
     assert record_payload["status"] == "ok"
+
+
+def test_rag_upload_and_query(tmp_path: Path) -> None:
+    client = build_client(tmp_path)
+    upload = client.post(
+        "/api/rag/upload",
+        data={
+            "import_type": "document",
+            "file": (io.BytesIO("这是一段测试知识库内容，包含茅台和腾讯。".encode("utf-8")), "notes.txt"),
+        },
+        content_type="multipart/form-data",
+    )
+    assert upload.status_code == 200
+    doc = upload.get_json()["document"]
+    assert doc["chunk_count"] >= 1
+
+    docs = client.get("/api/rag/docs")
+    assert docs.status_code == 200
+    assert docs.get_json()["count"] == 1
+
+    query = client.post("/api/rag/query", json={"query": "茅台", "top_k": 3})
+    assert query.status_code == 200
+    assert query.get_json()["count"] >= 1
+
+    whatsapp_upload = client.post(
+        "/api/rag/upload",
+        data={
+            "import_type": "whatsapp",
+            "file": (io.BytesIO("[12/01/24, 10:30:12 AM] Alice: 买入茅台".encode("utf-8")), "wa.txt"),
+        },
+        content_type="multipart/form-data",
+    )
+    assert whatsapp_upload.status_code == 200
+    assert whatsapp_upload.get_json()["document"]["source_type"] == "whatsapp"
+
+
+def test_debugger_api_available(tmp_path: Path) -> None:
+    client = build_client(tmp_path)
+    records = client.get("/api/debug/records?limit=10&offset=0")
+    assert records.status_code == 200
+    payload = records.get_json()
+    assert "records" in payload
+    assert payload["count"] >= 0
+
+    missing = client.get("/api/debug/records/not-found")
+    assert missing.status_code == 404
