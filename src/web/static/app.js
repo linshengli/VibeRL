@@ -190,7 +190,14 @@ function renderChatThread() {
   state.turns.forEach((turn) => {
     const card = document.createElement("div");
     card.className = `turn-card ${state.selectedTurnId === turn.id ? "active" : ""}`;
-    card.addEventListener("click", () => {
+    card.addEventListener("click", (event) => {
+      const target = event.target;
+      if (target instanceof HTMLElement) {
+        const interactive = target.closest("details,summary,pre,button,a,input,label,textarea,select");
+        if (interactive) {
+          return;
+        }
+      }
       state.selectedTurnId = turn.id;
       renderChatThread();
       renderAgentPanel();

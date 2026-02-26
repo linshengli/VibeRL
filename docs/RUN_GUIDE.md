@@ -2,6 +2,8 @@
 
 本文基于当前仓库可执行代码（真实股票工具已接入 `akshare`）整理，覆盖从环境准备到单 Agent、评估、数据管线、多 Agent Demo 的完整流程。
 
+SFT/RL 训练专项说明见：`docs/SFT_RL_TRAINING_GUIDE.md`。
+
 ## 1. 环境准备
 
 在项目根目录执行：

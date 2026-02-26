@@ -1,0 +1,482 @@
+{
+  "documents": [
+    {
+      "id": "198771ac-9fd4-4eeb-851d-43fa27c8db9f",
+      "file_name": "rag_notes.txt",
+      "source_type": "document",
+      "import_type": "document",
+      "metadata": {
+        "content_type": "text/plain"
+      },
+      "created_at": "2026-02-25T21:14:56.885078+00:00",
+      "chunk_count": 1
+    },
+    {
+      "id": "0b68f2e1-756d-4a55-8f14-6545fd92b7c6",
+      "file_name": "rag_notes.txt",
+      "source_type": "document",
+      "import_type": "document",
+      "metadata": {
+        "content_type": "text/plain"
+      },
+      "created_at": "2026-02-25T21:15:16.734106+00:00",
+      "chunk_count": 1
+    },
+    {
+      "id": "e00ca009-d7b9-4027-9e1e-0a2fedba9003",
+      "file_name": "rag_chat.txt",
+      "source_type": "third_party_chat",
+      "import_type": "chat",
+      "metadata": {
+        "content_type": "text/plain"
+      },
+      "created_at": "2026-02-25T21:15:33.018386+00:00",
+      "chunk_count": 1
+    },
+    {
+      "id": "b2715391-9765-420b-8772-df807cbc0921",
+      "file_name": "BTC出售流程.pdf",
+      "source_type": "document",
+      "import_type": "document",
+      "metadata": {
+        "content_type": "application/pdf"
+      },
+      "created_at": "2026-02-26T06:02:05.375013+00:00",
+      "chunk_count": 5
+    },
+    {
+      "id": "e0014d8a-ff05-4006-b95b-72261d651d46",
+      "file_name": "viberl_wa.txt",
+      "source_type": "whatsapp",
+      "import_type": "whatsapp",
+      "metadata": {
+        "content_type": "text/plain"
+      },
+      "created_at": "2026-02-26T06:23:01.712904+00:00",
+      "chunk_count": 2
+    },
+    {
+      "id": "a374767c-f4ff-42c9-90c4-83cdeb71d9e0",
+      "file_name": "viberl_wa.txt",
+      "source_type": "whatsapp",
+      "import_type": "whatsapp",
+      "metadata": {
+        "content_type": "text/plain"
+      },
+      "created_at": "2026-02-26T06:23:22.847035+00:00",
+      "chunk_count": 2
+    }
+  ],
+  "chunks": [
+    {
+      "id": "efea9ab5-fd0a-4b74-ae1a-4b918fe61a07",
+      "text": "茅台 风险控制 需要关注仓位和止损",
+      "metadata": {
+        "section": "full_text",
+        "segment_index": 0
+      },
+      "tf": {
+        "茅": 1,
+        "台": 1,
+        "风": 1,
+        "险": 1,
+        "控": 1,
+        "制": 1,
+        "需": 1,
+        "要": 1,
+        "关": 1,
+        "注": 1,
+        "仓": 1,
+        "位": 1,
+        "和": 1,
+        "止": 1,
+        "损": 1,
+        "茅台": 1,
+        "台风": 1,
+        "风险": 1,
+        "险控": 1,
+        "控制": 1,
+        "制需": 1,
+        "需要": 1,
+        "要关": 1,
+        "关注": 1,
+        "注仓": 1,
+        "仓位": 1,
+        "位和": 1,
+        "和止": 1,
+        "止损": 1
+      },
+      "len": 29,
+      "doc_id": "198771ac-9fd4-4eeb-851d-43fa27c8db9f"
+    },
+    {
+      "id": "e788ae6c-4c81-46d4-a527-eaa90af5be6c",
+      "text": "茅台 风险控制 需要关注仓位和止损",
+      "metadata": {
+        "section": "full_text",
+        "segment_index": 0
+      },
+      "tf": {
+        "茅": 1,
+        "台": 1,
+        "风": 1,
+        "险": 1,
+        "控": 1,
+        "制": 1,
+        "需": 1,
+        "要": 1,
+        "关": 1,
+        "注": 1,
+        "仓": 1,
+        "位": 1,
+        "和": 1,
+        "止": 1,
+        "损": 1,
+        "茅台": 1,
+        "台风": 1,
+        "风险": 1,
+        "险控": 1,
+        "控制": 1,
+        "制需": 1,
+        "需要": 1,
+        "要关": 1,
+        "关注": 1,
+        "注仓": 1,
+        "仓位": 1,
+        "位和": 1,
+        "和止": 1,
+        "止损": 1
+      },
+      "len": 29,
+      "doc_id": "0b68f2e1-756d-4a55-8f14-6545fd92b7c6"
+    },
+    {
+      "id": "0498a9a0-93c5-4152-90a6-4d40f4a4b451",
+      "text": "telegram 讨论: 腾讯减仓, 风险来自波动",
+      "metadata": {
+        "section": "full_text",
+        "segment_index": 0
+      },
+      "tf": {
+        "telegram": 1,
+        "讨": 1,
+        "论": 1,
+        "腾": 1,
+        "讯": 1,
+        "减": 1,
+        "仓": 1,
+        "风": 1,
+        "险": 1,
+        "来": 1,
+        "自": 1,
+        "波": 1,
+        "动": 1,
+        "讨论": 1,
+        "论腾": 1,
+        "腾讯": 1,
+        "讯减": 1,
+        "减仓": 1,
+        "仓风": 1,
+        "风险": 1,
+        "险来": 1,
+        "来自": 1,
+        "自波": 1,
+        "波动": 1
+      },
+      "len": 24,
+      "doc_id": "e00ca009-d7b9-4027-9e1e-0a2fedba9003"
+    },
+    {
+      "id": "5c771aa0-d486-4361-a308-b81215e331bb",
+      "text": "1 BTC 出售流程 BTC 转帐 1. 获得币安地址（⽬前使⽤的是 BitCoin ⽹络） 2. 通过钱包转账到币安 BTC转帐",
+      "metadata": {
+        "page": 1,
+        "segment_index": 0
+      },
+      "tf": {
+        "1": 2,
+        "btc": 3,
+        "bitcoin": 1,
+        "2": 1,
+        "出": 1,
+        "售": 1,
+        "流": 1,
+        "程": 1,
+        "转": 3,
+        "帐": 2,
+        "获": 1,
+        "得": 1,
+        "币": 2,
+        "安": 2,
+        "地": 1,
+        "址": 1,
+        "前": 1,
+        "使": 1,
+        "的": 1,
+        "是": 1,
+        "络": 1,
+        "通": 1,
+        "过": 1,
+        "钱": 1,
+        "包": 1,
+        "账": 1,
+        "到": 1,
+        "出售": 1,
+        "售流": 1,
+        "流程": 1,
+        "程转": 1,
+        "转帐": 2,
+        "帐获": 1,
+        "获得": 1,
+        "得币": 1,
+        "币安": 2,
+        "安地": 1,
+        "地址": 1,
+        "址前": 1,
+        "前使": 1,
+        "使的": 1,
+        "的是": 1,
+        "是络": 1,
+        "络通": 1,
+        "通过": 1,
+        "过钱": 1,
+        "钱包": 1,
+        "包转": 1,
+        "转账": 1,
+        "账到": 1,
+        "到币": 1,
+        "安转": 1
+      },
+      "len": 62,
+      "doc_id": "b2715391-9765-420b-8772-df807cbc0921"
+    },
+    {
+      "id": "c8f67e2c-8d4d-4e90-b7cc-bb033fe65614",
+      "text": "2 查询地址： 3. 币安出⾦： a. BTC 出售为 USDT The M empool Open Source Project® Explore the full Bitcoin ecosystem with m em pool.space™ Bitcoin Explorer",
+      "metadata": {
+        "page": 2,
+        "segment_index": 0
+      },
+      "tf": {
+        "2": 1,
+        "3": 1,
+        "a": 1,
+        "btc": 1,
+        "usdt": 1,
+        "the": 2,
+        "m": 2,
+        "empool": 1,
+        "open": 1,
+        "source": 1,
+        "project": 1,
+        "explore": 1,
+        "full": 1,
+        "bitcoin": 2,
+        "ecosystem": 1,
+        "with": 1,
+        "em": 1,
+        "pool": 1,
+        "space": 1,
+        "explorer": 1,
+        "查": 1,
+        "询": 1,
+        "地": 1,
+        "址": 1,
+        "币": 1,
+        "安": 1,
+        "出": 2,
+        "售": 1,
+        "为": 1,
+        "查询": 1,
+        "询地": 1,
+        "地址": 1,
+        "址币": 1,
+        "币安": 1,
+        "安出": 1,
+        "出出": 1,
+        "出售": 1,
+        "售为": 1
+      },
+      "len": 42,
+      "doc_id": "b2715391-9765-420b-8772-df807cbc0921"
+    },
+    {
+      "id": "b734f3d1-5836-4ceb-b482-95a28e858a76",
+      "text": "3 b. USDT OTC为RMB （可以通过 微信，⽀付宝，银⾏卡）",
+      "metadata": {
+        "page": 3,
+        "segment_index": 0
+      },
+      "tf": {
+        "3": 1,
+        "b": 1,
+        "usdt": 1,
+        "otc": 1,
+        "rmb": 1,
+        "为": 1,
+        "可": 1,
+        "以": 1,
+        "通": 1,
+        "过": 1,
+        "微": 1,
+        "信": 1,
+        "付": 1,
+        "宝": 1,
+        "银": 1,
+        "卡": 1,
+        "为可": 1,
+        "可以": 1,
+        "以通": 1,
+        "通过": 1,
+        "过微": 1,
+        "微信": 1,
+        "信付": 1,
+        "付宝": 1,
+        "宝银": 1,
+        "银卡": 1
+      },
+      "len": 26,
+      "doc_id": "b2715391-9765-420b-8772-df807cbc0921"
+    },
+    {
+      "id": "ec02cdb3-c748-468c-a70e-8080dff5251a",
+      "text": "4",
+      "metadata": {
+        "page": 4,
+        "segment_index": 0
+      },
+      "tf": {
+        "4": 1
+      },
+      "len": 1,
+      "doc_id": "b2715391-9765-420b-8772-df807cbc0921"
+    },
+    {
+      "id": "13557130-91df-45a7-a9c5-f5c3b69bf01e",
+      "text": "5",
+      "metadata": {
+        "page": 5,
+        "segment_index": 0
+      },
+      "tf": {
+        "5": 1
+      },
+      "len": 1,
+      "doc_id": "b2715391-9765-420b-8772-df807cbc0921"
+    },
+    {
+      "id": "5c15a04f-fb0a-447b-8e3e-5a254246065a",
+      "text": "[12/01/24, 10:30:12 AM] Alice: 买入茅台",
+      "metadata": {
+        "message_index": 1,
+        "author": "Alice",
+        "date": "12/01/24, 10:30:12 AM",
+        "platform": "whatsapp",
+        "segment_index": 0
+      },
+      "tf": {
+        "12": 2,
+        "01": 1,
+        "24": 1,
+        "10": 1,
+        "30": 1,
+        "am": 1,
+        "alice": 1,
+        "买": 1,
+        "入": 1,
+        "茅": 1,
+        "台": 1,
+        "买入": 1,
+        "入茅": 1,
+        "茅台": 1
+      },
+      "len": 15,
+      "doc_id": "e0014d8a-ff05-4006-b95b-72261d651d46"
+    },
+    {
+      "id": "d13819ba-753f-45a5-81d6-6e50852458ac",
+      "text": "[12/01/24, 10:31:00 AM] Bob: 先观望",
+      "metadata": {
+        "message_index": 2,
+        "author": "Bob",
+        "date": "12/01/24, 10:31:00 AM",
+        "platform": "whatsapp",
+        "segment_index": 0
+      },
+      "tf": {
+        "12": 1,
+        "01": 1,
+        "24": 1,
+        "10": 1,
+        "31": 1,
+        "00": 1,
+        "am": 1,
+        "bob": 1,
+        "先": 1,
+        "观": 1,
+        "望": 1,
+        "先观": 1,
+        "观望": 1
+      },
+      "len": 13,
+      "doc_id": "e0014d8a-ff05-4006-b95b-72261d651d46"
+    },
+    {
+      "id": "4fc625f9-a938-4ff7-a99d-427a082f0782",
+      "text": "[12/01/24, 10:30:12 AM] Alice: 买入茅台",
+      "metadata": {
+        "message_index": 1,
+        "author": "Alice",
+        "date": "12/01/24, 10:30:12 AM",
+        "platform": "whatsapp",
+        "segment_index": 0
+      },
+      "tf": {
+        "12": 2,
+        "01": 1,
+        "24": 1,
+        "10": 1,
+        "30": 1,
+        "am": 1,
+        "alice": 1,
+        "买": 1,
+        "入": 1,
+        "茅": 1,
+        "台": 1,
+        "买入": 1,
+        "入茅": 1,
+        "茅台": 1
+      },
+      "len": 15,
+      "doc_id": "a374767c-f4ff-42c9-90c4-83cdeb71d9e0"
+    },
+    {
+      "id": "ebdcec7c-44fb-4722-ba65-6d56ca5fe139",
+      "text": "[12/01/24, 10:31:00 AM] Bob: 先观望",
+      "metadata": {
+        "message_index": 2,
+        "author": "Bob",
+        "date": "12/01/24, 10:31:00 AM",
+        "platform": "whatsapp",
+        "segment_index": 0
+      },
+      "tf": {
+        "12": 1,
+        "01": 1,
+        "24": 1,
+        "10": 1,
+        "31": 1,
+        "00": 1,
+        "am": 1,
+        "bob": 1,
+        "先": 1,
+        "观": 1,
+        "望": 1,
+        "先观": 1,
+        "观望": 1
+      },
+      "len": 13,
+      "doc_id": "a374767c-f4ff-42c9-90c4-83cdeb71d9e0"
+    }
+  ]
+}
