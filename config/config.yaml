@@ -1,0 +1,22 @@
+# VibeRL 主配置文件
+# 注意：SFT 和 GRPO 各有专门的配置文件，见 configs/ 目录
+
+# API keys（运行时通过环境变量 DEEPSEEK_API_KEY 传入更安全）
+deepseek_api_key: ""
+wandb_api_key: ""
+
+# 模型路径
+model_path: models/Qwen2.5-7B-Instruct
+
+# 数据路径
+train_files: data/sft/parquet/train.parquet
+val_files: data/sft/parquet/val.parquet
+test_cases: data/test_cases.json
+
+# 通用训练参数
+output_dir: checkpoints
+gradient_checkpointing: true
+seed: 42
+
+# 实验追踪
+wandb_project: "vibe-rl"

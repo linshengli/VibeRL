@@ -1,0 +1,186 @@
+{
+  "num_cases": 5,
+  "num_ambiguous_cases": 2,
+  "metrics": {
+    "tool_accuracy": 1.0,
+    "output_quality": 1.0,
+    "amb_accuracy": 1.0
+  },
+  "details": [
+    {
+      "query": "查一下茅台的实时行情",
+      "expected_tools": [
+        "search_stock_by_name",
+        "get_realtime_quote"
+      ],
+      "actual_tools": [
+        "search_stock_by_name",
+        "get_realtime_quote"
+      ],
+      "tool_match": true,
+      "final_output": "贵州茅台(600519): 现价 1466.21, 涨跌幅 -1.71%, 成交量 3295801",
+      "reward": {
+        "trajectory_id": "a5bc55ad-1b5c-41ad-943a-1ebf224a3b09",
+        "tool_correctness": 0.4,
+        "output_quality": 0.4,
+        "efficiency_penalty": 0.0,
+        "final_reward": 0.8,
+        "expected_tools": [
+          "search_stock_by_name",
+          "get_realtime_quote"
+        ],
+        "actual_tools": [
+          "search_stock_by_name",
+          "get_realtime_quote"
+        ],
+        "tool_match_detail": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "query": "帮我查一下腾讯的实时价格",
+      "expected_tools": [
+        "search_stock_by_name",
+        "get_realtime_quote"
+      ],
+      "actual_tools": [
+        "search_stock_by_name",
+        "get_realtime_quote"
+      ],
+      "tool_match": true,
+      "final_output": "腾讯控股(00700): 现价 512.0, 涨跌幅 -2.01%, 成交量 25547825",
+      "reward": {
+        "trajectory_id": "e94279be-d5fd-48be-a11a-f31b3e4319b4",
+        "tool_correctness": 0.4,
+        "output_quality": 0.4,
+        "efficiency_penalty": 0.0,
+        "final_reward": 0.8,
+        "expected_tools": [
+          "search_stock_by_name",
+          "get_realtime_quote"
+        ],
+        "actual_tools": [
+          "search_stock_by_name",
+          "get_realtime_quote"
+        ],
+        "tool_match_detail": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "query": "帮我查一下茅台最近的技术指标",
+      "expected_tools": [
+        "search_stock_by_name",
+        "get_realtime_quote",
+        "get_technical_indicators"
+      ],
+      "actual_tools": [
+        "search_stock_by_name",
+        "get_realtime_quote",
+        "get_technical_indicators"
+      ],
+      "tool_match": true,
+      "final_output": "贵州茅台(600519): 现价 1466.21, 涨跌幅 -1.71%, 成交量 3295801\n600519 技术指标: MA5=1479.314, MA20=1447.6035, RSI14=54.0801, MACD(DIF=23.4902, DEA=24.5112)",
+      "reward": {
+        "trajectory_id": "bf1ea79f-e45e-412c-aa08-fb4184de58e1",
+        "tool_correctness": 0.4,
+        "output_quality": 0.4,
+        "efficiency_penalty": -0.02,
+        "final_reward": 0.78,
+        "expected_tools": [
+          "search_stock_by_name",
+          "get_realtime_quote",
+          "get_technical_indicators"
+        ],
+        "actual_tools": [
+          "search_stock_by_name",
+          "get_realtime_quote",
+          "get_technical_indicators"
+        ],
+        "tool_match_detail": [
+          true,
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "query": "查一下平安最近表现",
+      "expected_tools": [
+        "search_stock_by_name",
+        "get_realtime_quote"
+      ],
+      "actual_tools": [
+        "search_stock_by_name",
+        "get_realtime_quote"
+      ],
+      "tool_match": true,
+      "final_output": "平安银行(000001): 现价 10.87, 涨跌幅 0.09%, 成交量 71273019",
+      "reward": {
+        "trajectory_id": "8b05eb31-5d18-44b4-90f2-8aac3c6033bb",
+        "tool_correctness": 0.4,
+        "output_quality": 0.4,
+        "efficiency_penalty": 0.0,
+        "final_reward": 0.8,
+        "expected_tools": [
+          "search_stock_by_name",
+          "get_realtime_quote"
+        ],
+        "actual_tools": [
+          "search_stock_by_name",
+          "get_realtime_quote"
+        ],
+        "tool_match_detail": [
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "query": "帮我看下腾讯和茅台的行情",
+      "expected_tools": [
+        "search_stock_by_name",
+        "search_stock_by_name",
+        "get_realtime_quote",
+        "get_realtime_quote"
+      ],
+      "actual_tools": [
+        "search_stock_by_name",
+        "search_stock_by_name",
+        "get_realtime_quote",
+        "get_realtime_quote"
+      ],
+      "tool_match": true,
+      "final_output": "贵州茅台(600519): 现价 1466.21, 涨跌幅 -1.71%, 成交量 3295801\n腾讯控股(00700): 现价 512.0, 涨跌幅 -2.01%, 成交量 25547825",
+      "reward": {
+        "trajectory_id": "fbbe50ed-d264-421b-830a-830383eec9d8",
+        "tool_correctness": 0.4,
+        "output_quality": 0.4,
+        "efficiency_penalty": -0.04,
+        "final_reward": 0.76,
+        "expected_tools": [
+          "search_stock_by_name",
+          "search_stock_by_name",
+          "get_realtime_quote",
+          "get_realtime_quote"
+        ],
+        "actual_tools": [
+          "search_stock_by_name",
+          "search_stock_by_name",
+          "get_realtime_quote",
+          "get_realtime_quote"
+        ],
+        "tool_match_detail": [
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    }
+  ]
+}

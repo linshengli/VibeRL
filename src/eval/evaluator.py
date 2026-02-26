@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import asdict
 from statistics import mean
-from typing import Any, Dict, List, Sequence, Union
+from typing import Any, Dict, List, Optional, Sequence, Union
 
 from src.agent import StockAnalysisAgent
 from src.reward import RewardComputer
@@ -14,8 +14,13 @@ class AgentEvaluator:
         model_or_agent: Union[str, StockAnalysisAgent],
         test_cases: List[dict],
         metrics: Sequence[str] = ("tool_accuracy", "output_quality", "amb_accuracy"),
+        base_url: Optional[str] = None,
+        api_key: Optional[str] = None,
     ) -> Dict[str, Any]:
-        agent = model_or_agent if isinstance(model_or_agent, StockAnalysisAgent) else StockAnalysisAgent(model=model_or_agent)
+        if isinstance(model_or_agent, StockAnalysisAgent):
+            agent = model_or_agent
+        else:
+            agent = StockAnalysisAgent(model=model_or_agent, base_url=base_url, api_key=api_key)
         reward_computer = RewardComputer()
 
         results: List[Dict[str, Any]] = []

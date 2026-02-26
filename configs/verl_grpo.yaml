@@ -1,0 +1,78 @@
+# =============================================================
+#  verl GRPO / NGRPO 配置
+#  参考: https://github.com/volcengine/verl/tree/main/examples/grpo
+#  参考: https://github.com/volcengine/verl-recipe
+#
+#  用法 (GRPO):
+#    python -m verl.trainer.main_grpo --config configs/verl_grpo.yaml
+#
+#  用法 (NGRPO，低 reward 方差时):
+#    python -m verl.trainer.main_grpo --config configs/verl_grpo.yaml \
+#      --algorithm.grpo.use_ngrpo true
+# =============================================================
+
+actor_rollout_ref:
+  model:
+    path: checkpoints/sft/final    # SFT 后的 checkpoint
+
+  actor:
+    # ⚠️ Actor 不 offload！它需要频繁更新参数
+    # 错误地开启 offload 会导致训练极慢（博文中的坑）
+    fsdp_config:
+      param_offload: false
+      optimizer_offload: false
+    learning_rate: 5e-7           # RL 阶段学习率要比 SFT 低一个数量级
+    gradient_checkpointing: true
+
+  ref:
+    # Ref model 不更新参数，可以安全 offload 节省显存
+    fsdp_config:
+      param_offload: true
+      optimizer_offload: true
+
+  rollout:
+    # vLLM rollout 配置
+    tensor_parallel_size: 1
+    gpu_memory_utilization: 0.4
+    temperature: 0.7
+    top_p: 0.95
+    max_new_tokens: 2048
+
+algorithm:
+  grpo:
+    group_size: 8                 # 每个 prompt 采样 8 个回答
+    kl_coef: 0.01                 # KL 散度系数，防止偏离 ref model 太远
+    clip_ratio: 0.2               # PPO clip 比率
+
+    # ---------- NGRPO 配置 ----------
+    # 当 wandb 上 reward_std ≈ 0 / frac_reward_zero_std 很高时切换
+    use_ngrpo: false
+    ngrpo_virtual_max_reward: 1.0
+    # 也可以配非对称 clip（NGRPO 论文推荐）
+    # ngrpo_clip_pos: 0.24
+    # ngrpo_clip_neg: 0.16
+
+trainer:
+  total_epochs: 5
+  micro_batch_size: 4
+  gradient_accumulation_steps: 2
+  save_steps: 100
+  logging_steps: 10
+  gradient_checkpointing: true
+  output_dir: checkpoints/grpo
+
+data:
+  # RL 只需 prompt，不需要 response
+  train_files: data/rl/prompts.parquet
+  max_prompt_length: 512
+  max_response_length: 2048
+
+reward:
+  # 自定义 reward 函数路径
+  reward_fn: src.train.rl_reward:compute_reward_for_verl
+
+logging:
+  wandb_project: vibe-rl
+  wandb_run_name: grpo-v1
+
+seed: 42

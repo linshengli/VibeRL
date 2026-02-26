@@ -1,0 +1,50 @@
+# =============================================================
+#  verl FSDP SFT 配置
+#  参考: https://github.com/volcengine/verl/tree/main/examples/sft
+#
+#  用法:
+#    torchrun --nproc_per_node=4 \
+#      -m verl.trainer.fsdp_sft_trainer \
+#      --config configs/verl_sft.yaml
+# =============================================================
+
+model:
+  path: models/Qwen2.5-7B-Instruct
+
+data:
+  train_files: data/sft/parquet/train.parquet
+  val_files: data/sft/parquet/val.parquet
+  max_length: 4096          # 多轮 tool calling 对话需要更长
+  chat_template: null        # 使用模型自带的 chat_template
+
+training:
+  output_dir: checkpoints/sft
+  num_train_epochs: 3
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 8
+  learning_rate: 2e-5
+  warmup_ratio: 0.03
+  weight_decay: 0.01
+  lr_scheduler_type: cosine
+  bf16: true
+  gradient_checkpointing: true   # ⚠️ 必须开启，否则双卡 L4 跑不起来
+
+fsdp:
+  enabled: true
+  # 4×L4 建议两个都开
+  # 2×A100 可以关掉 param_offload
+  param_offload: true
+  optimizer_offload: true
+
+logging:
+  wandb_project: vibe-rl
+  wandb_run_name: sft-v1
+  logging_steps: 10
+
+save:
+  save_steps: 200
+  eval_steps: 100
+  save_total_limit: 3
+
+seed: 42

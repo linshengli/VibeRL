@@ -23,11 +23,13 @@ def main() -> None:
     parser.add_argument("--model", required=True, help="Model name or path")
     parser.add_argument("--test-cases", required=True, help="Path to test cases json")
     parser.add_argument("--output", required=True, help="Output json path")
+    parser.add_argument("--base-url", default=None, help="OpenAI-compatible API base URL (e.g. http://localhost:8000/v1)")
+    parser.add_argument("--api-key", default=None, help="API key (or set OPENAI_API_KEY / DEEPSEEK_API_KEY)")
     args = parser.parse_args()
 
     evaluator = AgentEvaluator()
     test_cases = load_test_cases(args.test_cases)
-    report = evaluator.evaluate(args.model, test_cases)
+    report = evaluator.evaluate(args.model, test_cases, base_url=args.base_url, api_key=args.api_key)
 
     output_path = Path(args.output)
     output_path.parent.mkdir(parents=True, exist_ok=True)

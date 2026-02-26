@@ -1,29 +1,69 @@
 [
-  {
-    "query": "查一下茅台的实时行情",
-    "expected_tools": ["search_stock_by_name", "get_realtime_quote"],
-    "ground_truth": {"market": "a_share", "code": "600519"}
-  },
-  {
-    "query": "帮我查一下腾讯的实时价格",
-    "expected_tools": ["search_stock_by_name", "get_realtime_quote"],
-    "ground_truth": {"market": "hk_share", "code": "00700"}
-  },
-  {
-    "query": "帮我查一下茅台最近的技术指标",
-    "expected_tools": ["search_stock_by_name", "get_realtime_quote", "get_technical_indicators"],
-    "ground_truth": {"market": "a_share", "code": "600519"}
-  },
-  {
-    "query": "查一下平安最近表现",
-    "expected_tools": ["search_stock_by_name", "get_realtime_quote"],
-    "ground_truth": {},
-    "is_ambiguous": true
-  },
-  {
-    "query": "帮我看下腾讯和茅台的行情",
-    "expected_tools": ["search_stock_by_name", "search_stock_by_name", "get_realtime_quote", "get_realtime_quote"],
-    "ground_truth": {},
-    "is_ambiguous": true
-  }
+  {"query": "查一下茅台的实时行情", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share", "code": "600519"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "贵州茅台今天多少钱", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share", "code": "600519"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "帮我看看五粮液的价格", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "泸州老窖今天的行情", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "宁德时代现在什么价位", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share", "code": "300750"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "比亚迪最近走势怎么样", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share", "code": "002594"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "招商银行今天表现如何", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "中信证券的实时行情", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "工商银行现在多少钱", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "中国神华的行情查一下", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "万科A今天涨了吗", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "长江电力最新的价格", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "平安银行今天涨了还是跌了", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share", "code": "000001"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "海天味业现在什么价格", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "a_share_basic"},
+  {"query": "三一重工最近行情如何", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "a_share_basic"},
+
+  {"query": "帮我查一下腾讯的实时价格", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "hk_share", "code": "00700"}, "is_ambiguous": false, "category": "hk_share_basic"},
+  {"query": "腾讯控股今天表现怎么样", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "hk_share", "code": "00700"}, "is_ambiguous": false, "category": "hk_share_basic"},
+  {"query": "美团今天多少钱", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "hk_share"}, "is_ambiguous": false, "category": "hk_share_basic"},
+  {"query": "小米集团港股的行情", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "hk_share", "code": "01810"}, "is_ambiguous": false, "category": "hk_share_basic"},
+  {"query": "阿里巴巴港股价格查一下", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "hk_share", "code": "09988"}, "is_ambiguous": false, "category": "hk_share_basic"},
+  {"query": "京东港股最近走势", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "hk_share"}, "is_ambiguous": false, "category": "hk_share_basic"},
+  {"query": "快手科技最新行情", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "hk_share"}, "is_ambiguous": false, "category": "hk_share_basic"},
+  {"query": "网易港股价格", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "hk_share"}, "is_ambiguous": false, "category": "hk_share_basic"},
+  {"query": "哔哩哔哩港股行情如何", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "hk_share"}, "is_ambiguous": false, "category": "hk_share_basic"},
+  {"query": "汇丰控股最新行情", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {"market": "hk_share"}, "is_ambiguous": false, "category": "hk_share_basic"},
+
+  {"query": "查一下平安的股票", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": true, "category": "ambiguous"},
+  {"query": "帮我看看平安最近的表现", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": true, "category": "ambiguous"},
+  {"query": "中国平安的行情怎么样", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": true, "category": "ambiguous"},
+  {"query": "查一下阿里的股价", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": true, "category": "ambiguous"},
+  {"query": "阿里巴巴最近涨了多少", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": true, "category": "ambiguous"},
+  {"query": "帮我比较中国平安 A 股和港股的价格", "expected_tools": ["search_stock_by_name", "search_stock_by_name", "get_realtime_quote", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": true, "category": "ambiguous"},
+  {"query": "中芯国际 A 股和港股哪个更便宜", "expected_tools": ["search_stock_by_name", "search_stock_by_name", "get_realtime_quote", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": true, "category": "ambiguous"},
+  {"query": "比亚迪在 A 股和港股分别是什么价", "expected_tools": ["search_stock_by_name", "search_stock_by_name", "get_realtime_quote", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": true, "category": "ambiguous"},
+  {"query": "紫金矿业 A 股和港股的行情", "expected_tools": ["search_stock_by_name", "search_stock_by_name", "get_realtime_quote", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": true, "category": "ambiguous"},
+  {"query": "药明康德的股票查一下", "expected_tools": ["search_stock_by_name", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": true, "category": "ambiguous"},
+
+  {"query": "帮我看下腾讯和茅台的行情", "expected_tools": ["search_stock_by_name", "search_stock_by_name", "get_realtime_quote", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": false, "category": "multi_stock"},
+  {"query": "比较五粮液和泸州老窖", "expected_tools": ["search_stock_by_name", "search_stock_by_name", "get_realtime_quote", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": false, "category": "multi_stock"},
+  {"query": "比较工商银行和建设银行的表现", "expected_tools": ["search_stock_by_name", "search_stock_by_name", "get_realtime_quote", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": false, "category": "multi_stock"},
+  {"query": "宁德时代和比亚迪哪个涨得多", "expected_tools": ["search_stock_by_name", "search_stock_by_name", "get_realtime_quote", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": false, "category": "multi_stock"},
+  {"query": "茅台和五粮液今天谁表现好", "expected_tools": ["search_stock_by_name", "search_stock_by_name", "get_realtime_quote", "get_realtime_quote"], "ground_truth": {}, "is_ambiguous": false, "category": "multi_stock"},
+
+  {"query": "查一下 600519 的行情", "expected_tools": ["get_realtime_quote"], "ground_truth": {"market": "a_share", "code": "600519"}, "is_ambiguous": false, "category": "by_code"},
+  {"query": "00700 最近怎么样", "expected_tools": ["get_realtime_quote"], "ground_truth": {"market": "hk_share", "code": "00700"}, "is_ambiguous": false, "category": "by_code"},
+  {"query": "601318 今天表现如何", "expected_tools": ["get_realtime_quote"], "ground_truth": {"market": "a_share", "code": "601318"}, "is_ambiguous": false, "category": "by_code"},
+  {"query": "000001 现在多少钱", "expected_tools": ["get_realtime_quote"], "ground_truth": {"market": "a_share", "code": "000001"}, "is_ambiguous": false, "category": "by_code"},
+  {"query": "09988 港股的行情", "expected_tools": ["get_realtime_quote"], "ground_truth": {"market": "hk_share", "code": "09988"}, "is_ambiguous": false, "category": "by_code"},
+
+  {"query": "查一下茅台最近的技术指标", "expected_tools": ["search_stock_by_name", "get_realtime_quote", "get_technical_indicators"], "ground_truth": {"market": "a_share", "code": "600519"}, "is_ambiguous": false, "category": "technical"},
+  {"query": "帮我看 600519 的 MA5 和 MACD", "expected_tools": ["get_technical_indicators"], "ground_truth": {"market": "a_share", "code": "600519"}, "is_ambiguous": false, "category": "technical"},
+  {"query": "腾讯的 RSI 是多少", "expected_tools": ["search_stock_by_name", "get_technical_indicators"], "ground_truth": {"market": "hk_share", "code": "00700"}, "is_ambiguous": false, "category": "technical"},
+  {"query": "宁德时代的均线走势怎么样", "expected_tools": ["search_stock_by_name", "get_technical_indicators"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "technical"},
+  {"query": "五粮液最近的 RSI14 指标", "expected_tools": ["search_stock_by_name", "get_technical_indicators"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "technical"},
+
+  {"query": "茅台是什么行业的", "expected_tools": ["search_stock_by_name", "get_stock_info"], "ground_truth": {"market": "a_share", "code": "600519"}, "is_ambiguous": false, "category": "fundamental"},
+  {"query": "查一下腾讯的市值", "expected_tools": ["search_stock_by_name", "get_stock_info"], "ground_truth": {"market": "hk_share", "code": "00700"}, "is_ambiguous": false, "category": "fundamental"},
+  {"query": "中国平安什么时候上市的", "expected_tools": ["search_stock_by_name", "get_stock_info"], "ground_truth": {"market": "a_share", "code": "601318"}, "is_ambiguous": false, "category": "fundamental"},
+  {"query": "比亚迪的公司基本信息", "expected_tools": ["search_stock_by_name", "get_stock_info"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "fundamental"},
+  {"query": "招商银行属于什么行业", "expected_tools": ["search_stock_by_name", "get_stock_info"], "ground_truth": {"market": "a_share"}, "is_ambiguous": false, "category": "fundamental"},
+
+  {"query": "查一下 xxxxxx 的股票", "expected_tools": ["search_stock_by_name"], "ground_truth": {}, "is_ambiguous": false, "category": "edge_case"},
+  {"query": "帮我看看苹果公司的行情", "expected_tools": ["search_stock_by_name"], "ground_truth": {}, "is_ambiguous": false, "category": "edge_case"},
+  {"query": "特斯拉今天涨了吗", "expected_tools": ["search_stock_by_name"], "ground_truth": {}, "is_ambiguous": false, "category": "edge_case"},
+  {"query": "查一下不存在的股票 999999", "expected_tools": [], "ground_truth": {}, "is_ambiguous": false, "category": "edge_case"},
+  {"query": "帮我查一下", "expected_tools": [], "ground_truth": {}, "is_ambiguous": false, "category": "edge_case"}
 ]

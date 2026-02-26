@@ -1,3 +1,4 @@
+# ==== 核心依赖（本地开发 + 数据生成）====
 akshare
 flask
 openai
@@ -7,3 +8,9 @@ python-pptx
 pyarrow
 pyyaml
 pytest
+
+# ==== GPU 训练依赖（在 GPU 机器上额外安装）====
+# 以下依赖在 GPU 机器上安装，不在本地安装：
+#   pip install torch --index-url https://download.pytorch.org/whl/cu121
+#   pip install transformers datasets accelerate
+#   pip install verl vllm wandb
